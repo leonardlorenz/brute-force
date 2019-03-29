@@ -87,29 +87,36 @@ int main(int argc, char** argv) {
         depth = (int) argv[1];
     }
 
-    /** open file specified by the command line parameter */
-    FILE* password_fd = fopen(filename, "r");
+    if (filename && depth) {
+        size_t lSize = (size_t) NULL;
+        /** open file specified by the command line parameter */
+        FILE* password_fd = fopen(filename, "r");
+        if (password_fd != NULL) {
+            int errno = 0;
+            /** obtain file size: */
+            fseek(password_fd, 0 , SEEK_END);
+            lSize = ftell(password_fd);
+            rewind(password_fd);
+        } else {
+            printf("Failed to open file: %s", filename);
+            exit(1);
+        }
 
-    // TODO: fix segfault caused by fseek, learn about errno
-    int errno = 0;
-    /** obtain file size: */
-    fseek(password_fd, 0 , SEEK_END);
-    size_t lSize = ftell(password_fd);
-    rewind(password_fd);
+        // TODO: fix segfault caused by fseek, learn about errno
+        /** allocate memory to contain the whole file: */
+        char* password = (char*) malloc (sizeof(char)*lSize);
+        if (password == NULL) {
+            printf("System ran out of memory.");
+            exit(1);
+        }
 
-    /** allocate memory to contain the whole file: */
-    char* password = (char*) malloc (sizeof(char)*lSize);
-    if (password == NULL) {
-        printf("System ran out of memory.");
-        exit(1);
-    }
-
-    if (bruteforce(password, depth) == true) {
-        free(password);
-        fclose(password_fd);
-        exit(0);
-    } else {
-        printf("Password couldn't be found.");
-        exit(2);
+        if (bruteforce(password, depth) == true) {
+            free(password);
+            fclose(password_fd);
+            exit(0);
+        } else {
+            printf("Password couldn't be found.");
+            exit(2);
+        }
     }
 }

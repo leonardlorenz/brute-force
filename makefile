@@ -1,5 +1,6 @@
-SRC="./src/"
-BIN="./bin/"
+SRC=./src/
+BIN=./bin/
+DBG=./dbg/
 
 SRCFILES="$(SRC)bruteforce.c"
 
@@ -7,8 +8,8 @@ compile:
 	clang $(SRCFILES) -o $(BIN)bruteforce
 
 run:
-	$(BIN)bruteforce $1 $2
+	$(BIN)bruteforce password 6
 
 debug:
-	clang -g $(SRCFILES) -o $(BIN)bruteforce
-	gdb $(BIN)bruteforce $(bin)password 6
+	clang -g $(SRCFILES) -o $(DBG)bruteforce
+	gdb $(DBG)bruteforce password 6
