@@ -8,8 +8,8 @@ compile:
 	clang $(SRCFILES) -o $(BIN)bruteforce
 
 run:
-	$(BIN)bruteforce password 6
+	$(BIN)bruteforce password.txt 6
 
 debug:
 	clang -g $(SRCFILES) -o $(DBG)bruteforce
-	gdb $(DBG)bruteforce password 6
+	gdb $(DBG)bruteforce password.txt 6

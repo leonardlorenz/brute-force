@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
         size_t lSize = (size_t) NULL;
         /** open file specified by the command line parameter */
         FILE* password_fd = fopen(filename, "r");
-        if (password_fd != NULL) {
+        if (password_fd) {
             int errno = 0;
             /** obtain file size: */
             fseek(password_fd, 0 , SEEK_END);
